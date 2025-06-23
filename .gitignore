@@ -215,7 +215,7 @@ trained_models/
 .plotly/
 
 # Matplotlib
-*.png
+# *.png
 *.jpg
 *.jpeg
 *.gif
@@ -243,8 +243,10 @@ Thumbs.db
 *.lnk
 
 # Project specific
-eda_pics/
-*.png
+# eda_pics/
+
+
+# *.png
 *.jpg
 *.jpeg
 *.gif
