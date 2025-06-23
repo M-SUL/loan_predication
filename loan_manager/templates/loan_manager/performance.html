@@ -1,0 +1,43 @@
+{% extends 'loan_manager/base.html' %}
+{% block title %}Model Performance{% endblock %}
+{% block content %}
+<div class="row justify-content-center g-4">
+  <div class="col-12 col-md-10 col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white d-flex align-items-center gap-2">
+        <i class="bi bi-graph-up fs-5 text-primary"></i>
+        <span class="fw-semibold">Model Performance Metrics (Placeholder)</span>
+        <span class="ms-auto text-muted small">Evaluation metrics and visualisations coming soon</span>
+      </div>
+      <div class="card-body">
+        <p class="lead mb-3">When the machine learning model is trained and integrated, this page will report accuracy, precision, recall, F1-score, and more.</p>
+        <ul class="list-group mb-3">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-percent"></i> Accuracy</span> <span class="badge bg-secondary">{{ metrics.accuracy|default:"N/A" }}</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-bullseye"></i> Precision</span> <span class="badge bg-secondary">{{ metrics.precision|default:"N/A" }}</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-arrow-repeat"></i> Recall</span> <span class="badge bg-secondary">{{ metrics.recall|default:"N/A" }}</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-award"></i> F1 Score</span> <span class="badge bg-secondary">{{ metrics.f1|default:"N/A" }}</span>
+          </li>
+        </ul>
+        <div class="alert alert-info d-flex align-items-center gap-2" role="alert">
+          <i class="bi bi-info-circle-fill fs-5"></i> Graphs like Confusion Matrix and ROC Curve will appear here.
+        </div>
+        <div class="mb-4">
+          <h5>Confusion Matrix</h5>
+          {% if cm_div %}{{ cm_div|safe }}{% endif %}
+        </div>
+        <div class="mb-4">
+          <h5>ROC Curve</h5>
+          {% if roc_div %}{{ roc_div|safe }}{% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 

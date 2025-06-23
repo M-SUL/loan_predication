@@ -1,0 +1,35 @@
+{% extends 'loan_manager/base.html' %}
+{% block title %}Delete Request{% endblock %}
+{% block content %}
+<div class="row justify-content-center g-4">
+  <div class="col-12 col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-header bg-danger text-white">
+        <i class="bi bi-trash"></i> Confirm Delete
+      </div>
+      <div class="card-body">
+        <p>Are you sure you want to delete the request for <strong>{{ object.applicant_name }}</strong>?</p>
+        <ul>
+          <li>Gender: {{ object.gender }}</li>
+          <li>Married: {{ object.married }}</li>
+          <li>Dependents: {{ object.dependents }}</li>
+          <li>Education: {{ object.education }}</li>
+          <li>Self Employed: {{ object.self_employed }}</li>
+          <li>Applicant Income: {{ object.applicant_income }}</li>
+          <li>Coapplicant Income: {{ object.coapplicant_income }}</li>
+          <li>Loan Amount: {{ object.loan_amount }}</li>
+          <li>Loan Amount Term: {{ object.loan_amount_term }}</li>
+          <li>Credit History: {{ object.credit_history }}</li>
+          <li>Property Area: {{ object.property_area }}</li>
+          <li>Loan Status: {{ object.loan_status }}</li>
+        </ul>
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Yes, delete</button>
+          <a href="{% url 'request_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 

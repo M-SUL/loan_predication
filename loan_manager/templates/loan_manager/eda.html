@@ -1,0 +1,304 @@
+{% extends 'loan_manager/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Image Preview Modal -->
+<div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-labelledby="imagePreviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imagePreviewModalLabel">Image Preview</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img id="modalImage" src="" alt="Preview" style="max-width: 100%; max-height: 80vh;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+    <h1 class="mb-4">Exploratory Data Analysis</h1>
+
+    <!-- Data Overview Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h4 mb-0">Data Overview</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Dataset Shape</h5>
+                    <p>{{ shape }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>Data Types</h5>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Column</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for col, dtype in dtypes.items %}
+                                <tr>
+                                    <td>{{ col }}</td>
+                                    <td>{{ dtype }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <h5>Missing Values</h5>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Column</th>
+                                    <th>Missing Values</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for col, count in missing_values.items %}
+                                <tr>
+                                    <td>{{ col }}</td>
+                                    <td>{{ count }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Descriptive Statistics Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h4 mb-0">Descriptive Statistics</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                {{ desc_stats|safe }}
+            </div>
+            <div class="mt-3">
+                <h5>Skewness Analysis</h5>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Skewness</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for feature, skew in skewness.items %}
+                            <tr>
+                                <td>{{ feature }}</td>
+                                <td>{{ skew|floatformat:2 }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Visualizations Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h4 mb-0">Visualizations</h2>
+        </div>
+        <div class="card-body">
+            <!-- Numerical Features Distribution -->
+            <h5 class="mb-4">Numerical Features Distribution</h5>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">ApplicantIncome Distribution</h6>
+                            <img src="{% static 'images/histogram_ApplicantIncome.png' %}" class="img-fluid" alt="Histogram of ApplicantIncome"
+                                 data-bs-toggle="modal" data-bs-target="#imagePreviewModal" onclick="showImageModal(this)">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">CoapplicantIncome Distribution</h6>
+                            <img src="{% static 'images/histogram_CoapplicantIncome.png' %}" class="img-fluid" alt="Histogram of CoapplicantIncome"
+                                 data-bs-toggle="modal" data-bs-target="#imagePreviewModal" onclick="showImageModal(this)">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">Credit_History Distribution</h6>
+                            <img src="{% static 'images/histogram_Credit_History.png' %}" class="img-fluid" alt="Histogram of Credit_History"
+                                 data-bs-toggle="modal" data-bs-target="#imagePreviewModal" onclick="showImageModal(this)">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">Loan_Amount_Term Distribution</h6>
+                            <img src="{% static 'images/histogram_Loan_Amount_Term.png' %}" class="img-fluid" alt="Histogram of Loan_Amount_Term"
+                                 data-bs-toggle="modal" data-bs-target="#imagePreviewModal" onclick="showImageModal(this)">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">LoanAmount Distribution</h6>
+                            <img src="{% static 'images/histogram_LoanAmount.png' %}" class="img-fluid" alt="Histogram of LoanAmount"
+                                 data-bs-toggle="modal" data-bs-target="#imagePreviewModal" onclick="showImageModal(this)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box Plots -->
+            <h5 class="mb-4 mt-4">Box Plots</h5>
+            <div class="row">
+                <div class="col-12">
+                    <img src="{% static 'images/boxplots.png' %}" class="img-fluid" alt="Box Plots">
+                </div>
+            </div>
+
+            <!-- Correlation Heatmap -->
+            <h5 class="mb-4 mt-4">Correlation Heatmap</h5>
+            <div class="row">
+                <div class="col-12">
+                    <img src="{% static 'images/correlation_heatmap.png' %}" class="img-fluid" alt="Correlation Heatmap">
+                </div>
+            </div>
+
+            <!-- Categorical Features -->
+            <h5 class="mb-4 mt-4">Categorical Features</h5>
+            <div class="row">
+                {% for col in categorical_cols %}
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ col }} Distribution</h6>
+                            <img src="{% static 'images/countplot_'|add:col|add:'.png' %}" 
+                                 class="img-fluid" alt="Count Plot of {{ col }}">
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Anomaly Detection Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h4 mb-0">Anomaly Detection</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Number of Outliers</th>
+                            <th>Outlier Range</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for feature, info in anomalies.items %}
+                        <tr>
+                            <td>{{ feature }}</td>
+                            <td>{{ info.count }}</td>
+                            <td>[{{ info.lower_bound|floatformat:2 }}, {{ info.upper_bound|floatformat:2 }}]</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Engineering Suggestions Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h4 mb-0">Feature Engineering Suggestions</h2>
+        </div>
+        <div class="card-body">
+            <h5>Potential Ratio Features</h5>
+            <ul>
+                {% for ratio in ratio_features %}
+                <li>{{ ratio }}</li>
+                {% endfor %}
+            </ul>
+            <h5>Potential Interaction Features</h5>
+            <ul>
+                {% for interaction in interaction_features %}
+                <li>{{ interaction }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Data Quality Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h4 mb-0">Data Quality Check</h2>
+        </div>
+        <div class="card-body">
+            {% if constant_features %}
+            <h5>Constant Features</h5>
+            <ul>
+                {% for feature in constant_features %}
+                <li>{{ feature }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% if high_cardinality %}
+            <h5>High Cardinality Features</h5>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Unique Values</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for feature, count in high_cardinality %}
+                        <tr>
+                            <td>{{ feature }}</td>
+                            <td>{{ count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function showImageModal(img) {
+    var modalImg = document.getElementById('modalImage');
+    modalImg.src = img.src;
+    modalImg.alt = img.alt;
+    document.getElementById('imagePreviewModalLabel').textContent = img.alt;
+}
+</script>
+{% endblock %} 

@@ -1,0 +1,87 @@
+{% extends 'loan_manager/base.html' %}
+{% block title %}Loan Requests{% endblock %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-12">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white d-flex align-items-center gap-2">
+        <i class="bi bi-table fs-5 text-primary"></i>
+        <span class="fw-semibold">Loan / Credit Requests</span>
+        <span class="ms-auto text-muted small">View and manage loan requests</span>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>ID</th>
+                <th>Applicant</th>
+                <th>Prediction</th>
+                <th>Date</th>
+                <th>Gender</th>
+                <th>Married</th>
+                <th>Dependents</th>
+                <th>Education</th>
+                <th>Self Employed</th>
+                <th>Applicant Income</th>
+                <th>Coapplicant Income</th>
+                <th>Loan Amount</th>
+                <th>Loan Amount Term</th>
+                <th>Credit History</th>
+                <th>Property Area</th>
+                <th>Loan Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for req in requests %}
+              <tr>
+                <td>{{ req.id }}</td>
+                <td>{{ req.applicant_name }}</td>
+                <td>
+                  <span class="badge {% if req.prediction == 'Approved' %}bg-success-subtle text-success-emphasis border border-success-subtle{% else %}bg-danger-subtle text-danger-emphasis border border-danger-subtle{% endif %} px-3 py-2">
+                    <i class="bi {% if req.prediction == 'Approved' %}bi-check-circle{% else %}bi-x-circle{% endif %}"></i>
+                    {{ req.prediction }}
+                  </span>
+                </td>
+                <td>{{ req.created_at|date:"Y-m-d" }}</td>
+                <td>{{ req.gender }}</td>
+                <td>{{ req.married }}</td>
+                <td>{{ req.dependents }}</td>
+                <td>{{ req.education }}</td>
+                <td>{{ req.self_employed }}</td>
+                <td>{{ req.applicant_income }}</td>
+                <td>{{ req.coapplicant_income }}</td>
+                <td>{{ req.loan_amount }}</td>
+                <td>{{ req.loan_amount_term }}</td>
+                <td>{{ req.credit_history }}</td>
+                <td>{{ req.property_area }}</td>
+                <td>{{ req.loan_status }}</td>
+                <td>
+                  <a href="{% url 'request_override' req.id %}" class="btn btn-sm btn-outline-secondary me-1">
+                    <i class="bi bi-pencil-square"></i> Override
+                  </a>
+                  <form action="{% url 'request_delete' req.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this request?');">
+                      <i class="bi bi-trash"></i> Delete
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="6" class="text-center">No requests available.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="mt-4 text-end">
+          <a href="{% url 'request_add' %}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add New Request</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 
