@@ -8,12 +8,12 @@ visit the website to try it: https://mhdaliharmalani.pythonanywhere.com/
 
 Histograms:
 
-![Histograms] (https://github.com/M-SUL/loan_predication/blob/main/eda_pics/histograms.png)
+![Histograms](https://github.com/M-SUL/loan_predication/blob/main/eda_pics/histograms.png)
 
 
 Correlation Heatmap:
 
-![Correlations] (https://github.com/M-SUL/loan_predication/blob/main/eda_pics/correlation_heatmap.png
+![Correlations](https://github.com/M-SUL/loan_predication/blob/main/eda_pics/correlation_heatmap.png)
 
 
 ## For Contributors
