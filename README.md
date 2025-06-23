@@ -3,6 +3,19 @@ This project aims to help banks predict loan approval
 
 visit the website to try it: https://mhdaliharmalani.pythonanywhere.com/
 
+
+# Explainatory Data Analysis
+
+Histograms:
+
+https://github.com/M-SUL/loan_predication/blob/main/eda_pics/histograms.png
+
+
+Correlation Heatmap:
+
+https://github.com/M-SUL/loan_predication/blob/main/eda_pics/correlation_heatmap.png
+
+
 ## For Contributors
 
 ### Prerequisites
