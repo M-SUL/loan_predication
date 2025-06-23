@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Credit System{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow-sm">
+      <div class="container-xl">
+        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="/">
+          <i class="bi bi-bank2 fs-4"></i> Credit ML
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul class="navbar-nav align-items-lg-center gap-lg-2">
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'request_list' %}active{% endif %}" href="{% url 'request_list' %}"><i class="bi bi-table"></i> Requests</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'request_add' %}active{% endif %}" href="{% url 'request_add' %}"><i class="bi bi-plus-circle"></i> Add Request</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'eda' %}active{% endif %}" href="{% url 'eda' %}"><i class="bi bi-bar-chart"></i> EDA</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'performance' %}active{% endif %}" href="{% url 'performance' %}"><i class="bi bi-graph-up"></i> Model Performance</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container-xl my-4" style="max-width: 900px;">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer bg-primary text-white text-center py-3 mt-5 small shadow-sm">
+      <div class="container-xl">
+        <span class="d-flex align-items-center justify-content-center gap-2">
+          <i class="bi bi-shield-lock"></i> &copy; 2024 Credit ML System. All rights reserved.
+        </span>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html> 

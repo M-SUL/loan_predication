@@ -1,0 +1,27 @@
+{% extends 'loan_manager/base.html' %}
+{% block title %}Override Prediction{% endblock %}
+{% block content %}
+<div class="row justify-content-center g-4">
+  <div class="col-12 col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <i class="bi bi-pencil-square"></i> Override Prediction
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="prediction" class="form-label">Prediction</label>
+            <select class="form-select" id="prediction" name="prediction" required>
+              <option value="Approved" {% if object.prediction == 'Approved' %}selected{% endif %}>Approved</option>
+              <option value="Rejected" {% if object.prediction == 'Rejected' %}selected{% endif %}>Rejected</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-success"><i class="bi bi-check-circle"></i> Save</button>
+          <a href="{% url 'request_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 
