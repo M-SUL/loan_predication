@@ -6,17 +6,21 @@ This module expects a file `model.joblib` (or other name) located in the same
 pandas DataFrames in its `predict` / `predict_proba` methods.
 
 Because we have not run training yet, the service is resilient to missing model
-files – it will lazy-load and raise a friendly error if the model is not
+files, it will lazy-load and raise a friendly error if the model is not
 available.
 """
+
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 from typing import Any, Dict, Tuple
 
 import joblib
 import pandas as pd
+
+from .features import add_features
 
 # Directory where this file lives
 _PACKAGE_ROOT = Path(__file__).resolve().parent
@@ -35,6 +39,13 @@ def _ensure_model_loaded():
                 "Trained model file not found. Please run the training script "
                 "to generate 'model.joblib' first."
             )
+
+        # Workaround for pickle import issue - make add_features available
+        # in __main__
+        main_module = sys.modules["__main__"]
+        if not hasattr(main_module, "add_features"):
+            main_module.add_features = add_features
+
         _MODEL = joblib.load(_MODEL_PATH)
 
 
@@ -56,7 +67,7 @@ def predict(features: Dict[str, Any]) -> Tuple[str, float]:
     # Convert to DataFrame with single row
     df = pd.DataFrame([features])
     prob = float(_MODEL.predict_proba(df)[:, 1][0])
-    label = "Approved" if prob >= 0.5 else "Rejected"
+    label = "Approved" if prob >= 0.6 else "Rejected"
     return label, prob
 
 
