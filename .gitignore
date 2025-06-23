@@ -243,7 +243,9 @@ Thumbs.db
 *.lnk
 
 # Project specific
-eda_pics/
+# eda_pics/
+
+
 *.png
 *.jpg
 *.jpeg
